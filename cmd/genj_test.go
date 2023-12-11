@@ -30,23 +30,7 @@ func TestGenFishAutoForJ(t *testing.T) {
 	homeDir = "(home)"
 
 	got := genFishAutoForJ(b)
-	want := `#!/usr/bin/env fish
-
-set -l bookmark_keys \
-  a \
-  b
-
-
-# cleanup current autocomplete
-complete -c j -e
-
-# list all bookmarks
-
-complete -f -c j -n "not __fish_seen_subcommand_from $bookmark_keys" -a 'a' -d '111'
-
-complete -f -c j -n "not __fish_seen_subcommand_from $bookmark_keys" -a 'b' -d '~/222'
-
-`
+	want := "a\t111\nb\t~/222"
 	if d := cmp.Diff(want, got); d != "" {
 		t.Errorf("-want, +got:\n%v", d)
 	}
@@ -58,15 +42,7 @@ func TestGenFishAutoForJWithEmptyBookmark(t *testing.T) {
 	homeDir = "(home)"
 
 	got := genFishAutoForJ(b)
-	want := `#!/usr/bin/env fish
-
-
-# cleanup current autocomplete
-complete -c j -e
-
-# list all bookmarks
-
-`
+	want := ""
 	if d := cmp.Diff(want, got); d != "" {
 		t.Errorf("-want, +got:\n%v", d)
 	}
