@@ -15,10 +15,9 @@
 package cmd
 
 import (
-	"bytes"
 	"fmt"
 	"log"
-	"text/template"
+	"strings"
 
 	"github.com/chaopeng/to/bookmark"
 
@@ -44,33 +43,19 @@ func init() {
 	rootCmd.AddCommand(genjCmd)
 }
 
+// genFishAutoForJ gen the list for `complete -f -c j -a {result}`
 func genFishAutoForJ(b *bookmark.Bookmarks) string {
-	t, err := template.New("fishj").Parse(fishJTemplate)
-	if err != nil {
-		log.Fatalf("template parse failed: %v", err)
-	}
+	var sb strings.Builder
 
 	list := b.ListWithFilters(nil)
 	for i, b := range list {
-		list[i].Path = dirShorten(b.Path, false)
+		if i > 0 {
+			sb.WriteString("\n")
+		}
+		sb.WriteString(b.Name)
+		sb.WriteString("\t")
+		sb.WriteString(dirShorten(b.Path, false))
 	}
 
-	var out bytes.Buffer
-	t.Execute(&out, list)
-	return out.String()
+	return sb.String()
 }
-
-var fishJTemplate = `#!/usr/bin/env fish
-{{if .}}
-set -l bookmark_keys{{ range . }} \
-  {{ .Name }}{{ end }}
-{{end}}
-
-# cleanup current autocomplete
-complete -c j -e
-
-# list all bookmarks
-{{ range . }}
-complete -f -c j -n "not __fish_seen_subcommand_from $bookmark_keys" -a '{{ .Name }}' -d '{{ .Path }}'
-{{ end }}
-`

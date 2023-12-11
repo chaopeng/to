@@ -38,6 +38,8 @@ to completion fish > ~/.config/fish/completions/to.fish
 
 ## Installation
 
+For fish:
+
 ```sh
-scripts/install.sh
+scripts/fish/install.sh
 ```

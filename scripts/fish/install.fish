@@ -16,6 +16,5 @@
 
 go install
 
-cp scripts/j.fish    ~/.config/fish/conf.d/j.fish
-to completion fish > ~/.config/fish/completions/to.fish
-to genj fish >       ~/.config/fish/completions/j.fish
+cp scripts/fish/conf.d/j.fish         ~/.config/fish/conf.d/j.fish
+cp scripts/fish/completions/j.fish    ~/.config/fish/completions/j.fish
