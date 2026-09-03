@@ -1,6 +1,6 @@
 module github.com/chaopeng/to
 
-go 1.21
+go 1.27.1
 
 require (
 	github.com/fatih/color v1.16.0
